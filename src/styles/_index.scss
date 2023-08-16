@@ -1,0 +1,76 @@
+// 入口
+@import './_reset.scss';
+@import './_button.scss';
+@import './_animation.scss';
+@import './_tailwind.css';
+@import 'ant-design-vue/dist/reset.css';
+@import './ant.scss';
+@import './_variables.module.scss';
+@import './_mixin.scss';
+@import './_transition.scss';
+@import './_sidebar.scss';
+@import './_dark.scss';
+
+#app {
+  height: 100%;
+}
+
+//main-container全局样式
+.app-container {
+}
+
+.components-container {
+  margin: 30px 50px;
+  position: relative;
+}
+
+.pagination-container {
+  margin-top: 30px;
+}
+
+.sub-navbar {
+  height: 50px;
+  line-height: 50px;
+  position: relative;
+  width: 100%;
+  text-align: right;
+  padding-right: 20px;
+  transition: 600ms ease position;
+  background: linear-gradient(90deg, rgba(32, 182, 249, 1) 0%, rgba(32, 182, 249, 1) 0%, rgba(33, 120, 241, 1) 100%, rgba(33, 120, 241, 1) 100%);
+
+  .subtitle {
+    font-size: 20px;
+    color: #fff;
+  }
+
+  &.draft {
+    background: #d0d0d0;
+  }
+
+  &.deleted {
+    background: #d0d0d0;
+  }
+}
+
+.link-type,
+.link-type:focus {
+  color: #337ab7;
+  cursor: pointer;
+
+  &:hover {
+    color: rgb(32, 160, 255);
+  }
+}
+
+.filter-container {
+  padding: 20px;
+  border-bottom: 20px solid #f5f5f5;
+  background-color: #fff;
+  .filter-item {
+    margin-bottom: 10px;
+  }
+}
+.content-main{
+  padding: 20px;
+  background-color: #fff;
+}
