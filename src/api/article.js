@@ -1,11 +1,12 @@
 import request from '@/utils/request'
 
-export function getList(params) {
-	if (params.createdAt != null) params.createdAt[1] = params.createdAt[1] + ' 23:59:59'
+export function getList(params, config) {
+	// if (params.createdAt != null) params.createdAt[1] = params.createdAt[1] + ' 23:59:59'
 	return request({
 		url: '/articles/list',
 		method: 'get',
-		params
+		params,
+		loading: config.loading
 	})
 }
 
@@ -17,11 +18,12 @@ export function addArticle(data) {
 	})
 }
 
-export function upadteArticle(data) {
+export function upadteArticle(data, config) {
 	return request({
 		url: '/articles',
 		method: 'patch',
-		data
+		data,
+		msgLoading: config.msgLoading
 	})
 }
 export function delArticle(ids) {

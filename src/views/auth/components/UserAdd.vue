@@ -194,7 +194,7 @@ onMounted(() => {
           list-type="picture-card"
           class="avatar-uploader"
           :show-upload-list="false"
-          action="/upload/avatar"
+          :action="$formatImgPath('/upload/avatar')"
           :before-upload="beforeUpload"
           @change="handleChange"
         >

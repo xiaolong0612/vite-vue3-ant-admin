@@ -140,6 +140,6 @@ onMounted(() => {
         </template>
       </a-table>
     </div>
-    <RouterEdit ref="editRef" :routerSource="list" />
+    <RouterEdit ref="editRef" :routerSource="list" @fetch-data="fetchData" />
   </div>
 </template>

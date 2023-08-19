@@ -104,7 +104,7 @@ onMounted(() => {
             {{ $parseTime(record.createdAt) }}
           </template>
           <template v-if="column.key === 'status'">
-            <a-tag v-if="record.status" color="green" class="cursor-pointer" @click="updateStatus(record)">启用</a-tag>
+            <a-tag v-if="record.status" color="green" class="cursor-pointer" @click="record.title != '超级管理员' && updateStatus(record)">启用</a-tag>
             <a-tag v-else color="red" class="cursor-pointer" @click="updateStatus(record)">禁用</a-tag>
           </template>
           <template v-if="column.dataIndex === 'operation'">

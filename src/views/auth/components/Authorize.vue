@@ -120,10 +120,8 @@ defineExpose({
 </script>
 <template>
   <a-modal title="授权" v-model:open="dialogVisible" @ok="onSubmit" @cancel="onCancel">
-    <!-- <a-table :columns="columns" :data-source="list" :rowKey="record => record._id" size="small" :pagination="false" :row-selection="rowSelection"> -->
     <a-table :columns="columns" :data-source="list" :rowKey="record => record._id" size="small" :loading="loading" :pagination="false" :row-selection="rowSelection">
       <template #bodyCell="{ column, record }">
-
         <template v-if="column.key === 'title'">
           {{ record.meta.title }}
         </template>

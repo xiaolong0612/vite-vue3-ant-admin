@@ -2,6 +2,7 @@
 import { ref, inject } from 'vue'
 import { deepClone } from '@/utils'
 import { addRouter, upadteRouter } from '@/api/router'
+const emit = defineEmits(['fetchData'])
 
 const $msg = inject('message')
 
@@ -26,14 +27,14 @@ class Temp {
 	_id = undefined
 	parent_id = ''
 	hidden = false
-	path = ''
+	path = 'index'
 	redirect = ''
-	component = ''
-	name = ''
+	component = 'articles/index'
+	name = '文章管理'
 	meta = {
-		title: '',
-		icon: '',
-		auth: [],
+		title: '文章列表',
+		icon: 'laptop-outlined',
+		auth: ['添加', '编辑', '删除', '上传文件'],
 		sort: 0
 	}
 }
@@ -52,8 +53,13 @@ const handleCreate = () => {
 }
 // add
 const createData = async () => {
-	await addRouter(Object.assign(tempRef.value, {component: tempRef.value.componentStr}))
+	tempRef.value.parent_id = parent_id.value[parent_id.value.length - 1]
+	const params = Object.assign(tempRef.value, {component: tempRef.value.componentStr})
+	delete params.componentStr
+	delete params.childred
+	await addRouter(params)
 	dialogVisible.value = false
+	emit('fetchData')
 }
 // 编辑
 const handleUpdate = (row) => {
@@ -73,6 +79,7 @@ const updateData = () => {
 	delete params.childred
 	upadteRouter(params, {msgLoading: hide}).then(() => {
 		dialogVisible.value = false
+		emit('fetchData')
 	})
 }
 // 更新单个字段

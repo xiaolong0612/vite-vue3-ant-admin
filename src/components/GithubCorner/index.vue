@@ -2,11 +2,11 @@
  * @Description: My Github
  * @Author: Amber
  * @Date: 2023-03-16 22:58:39
- * @LastEditTime: 2023-03-16 23:04:56
+ * @LastEditTime: 2023-08-19 02:09:08
  * @LastEditors: Amber
 -->
 <template>
-  <a href="https://github.com/xiaolong0612/vite-vue3-ts-elementplus-admin" target="_blank" class="github-corner" aria-label="View source on Github">
+  <a href="https://github.com/xiaolong0612/vite-vue3-ant-admin.git" target="_blank" class="github-corner" aria-label="View source on Github">
     <svg
       width="80"
       height="80"

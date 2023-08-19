@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-09 19:09:00
- * @LastEditTime: 2023-08-16 14:02:55
+ * @LastEditTime: 2023-08-20 00:21:02
  * @LastEditors: Amber
  */
 import axios from 'axios'
@@ -29,7 +29,7 @@ service.interceptors.request.use(
 		//   // let each request carry token
 		//   // ['X-Token'] is a custom headers key
 		//   // please modify it according to the actual situation
-		config.headers['Admin_token'] = localCache.getItemCache('USER', 'token')
+		config.headers['Authorization'] = localCache.getItemCache('USER', 'token')
 		// }
 		return config
 	},
