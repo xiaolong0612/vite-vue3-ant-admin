@@ -2,25 +2,19 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-10 00:25:11
- * @LastEditTime: 2023-08-15 16:31:18
+ * @LastEditTime: 2023-08-21 23:15:14
  * @LastEditors: Amber
  */
 import request from '@/utils/request'
 
-export function getList() {
-	return request({
-		url: '/roles/list/role',
-		method: 'get'
-	})
-}
-
+// 获取全部路由
 export function getRouter() {
 	return request({
-		url: '/routers/router',
+		url: '/routers/list',
 		method: 'get'
 	})
 }
-
+// add
 export function addRouter(data) {
 	return request({
 		url: '/routers',
@@ -28,7 +22,7 @@ export function addRouter(data) {
 		data
 	})
 }
-
+// update
 export function upadteRouter(data, config) {
 	return request({
 		url: '/routers',
@@ -37,6 +31,7 @@ export function upadteRouter(data, config) {
 		msgLoading: config?.msgLoading || null
 	})
 }
+// del
 export function delRouter(ids) {
 	return request({
 		url: '/routers',

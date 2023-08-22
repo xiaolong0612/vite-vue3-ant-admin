@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-03-10 17:50:24
- * @LastEditTime: 2023-08-10 19:34:04
+ * @LastEditTime: 2023-08-21 18:17:36
  * @LastEditors: Amber
 -->
 <script>
@@ -13,8 +13,7 @@ export default {
 }
 </script>
 <template>
-  <i v-if="icon.includes('icon')"></i>
-  <component v-else :is="icon" />
+  <icon :type="icon" />
   <span>{{ title }}</span>
 </template>
 

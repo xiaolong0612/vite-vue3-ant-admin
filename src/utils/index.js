@@ -460,3 +460,8 @@ export function checkPwdLevel (pwd, len = 6) {
 	if (pwd.length > 13) level++
 	return level
 }
+
+// Array to JSON
+// let a = [{key: 'name',value: 'amber'}, {key: 'age',value: 2}]
+// let b = a.reduce((obj, item) => (obj[item.key] = item.value,obj), {})
+// {name: amber, age: 2}

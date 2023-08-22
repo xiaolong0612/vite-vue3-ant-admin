@@ -2,12 +2,12 @@
  * @Description: ant 组件注入
  * @Author: Amber
  * @Date: 2023-03-16 17:50:20
- * @LastEditTime: 2023-08-15 17:48:58
+ * @LastEditTime: 2023-08-21 15:50:41
  * @LastEditors: Amber
  */
 import { message } from 'ant-design-vue'
+import 'virtual:svg-icons-register'
 import * as Icons from '@ant-design/icons-vue'
-
 import Icon from '@/components/Icon/index.vue'
 
 export default function loadComponent(app) {

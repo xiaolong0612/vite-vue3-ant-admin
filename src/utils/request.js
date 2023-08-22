@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-09 19:09:00
- * @LastEditTime: 2023-08-20 00:21:02
+ * @LastEditTime: 2023-08-21 12:28:05
  * @LastEditors: Amber
  */
 import axios from 'axios'
@@ -29,7 +29,7 @@ service.interceptors.request.use(
 		//   // let each request carry token
 		//   // ['X-Token'] is a custom headers key
 		//   // please modify it according to the actual situation
-		config.headers['Authorization'] = localCache.getItemCache('USER', 'token')
+		config.headers['Authorization'] = localCache.getCache('Authorization')
 		// }
 		return config
 	},
@@ -55,6 +55,9 @@ service.interceptors.response.use(
 	 * msgShow 请求msg是否弹出，默认true
    */
 	response => {
+		if(response.headers.authorization){
+			localCache.setCache('Authorization', response.headers.authorization)
+		}
 		if (response.config.loading) response.config.loading.value = false
 		const msgShow = response.config.msgShow == undefined ? true : response.config.msgShow
 		if(response.config.msgLoading) response.config.msgLoading()
@@ -65,6 +68,7 @@ service.interceptors.response.use(
 			// 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
 			if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
 				localCache.removerCache('USER')
+				localCache.removerCache('Authorization')
 				// to re-login
 				Modal.confirm({
 					title: res.msg || '您已注销，可以取消以留在此页面，也可以重新登录',
@@ -84,7 +88,7 @@ service.interceptors.response.use(
 		if (error.config.loading) error.config.loading.value = false
 		if(error.config.msgLoading) error.config.msgLoading()
 		console.log('err' + error) // for debug
-		message.error(error.msg || 'Error')
+		message.error(error.message || 'Error')
 		return Promise.reject(error)
 	}
 )

@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-03-12 16:22:15
- * @LastEditTime: 2023-08-11 00:05:19
+ * @LastEditTime: 2023-08-21 01:09:37
  * @LastEditors: Amber
 -->
 <template>
@@ -20,10 +20,10 @@
 <script setup>
 import GithubCorner from '@/components/GithubCorner/index.vue'
 import { useTagsViewStore } from '@/stores/tagsView'
-import { useAppStore } from "@/stores/app";
+import { useAppStore } from '@/stores/app'
 import { computed } from 'vue'
 const cachedViews = computed(() => {
-  return useTagsViewStore().cachedViews
+	return useTagsViewStore().cachedViews
 })
 </script>
 

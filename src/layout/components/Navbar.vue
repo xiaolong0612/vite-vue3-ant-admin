@@ -1,12 +1,19 @@
 <script setup>
 import { useAppStore } from '@/stores/app'
 import { useUserStore } from '@/stores/user'
+import { usePermissionStore } from '@/stores/permission'
 import Hamburger from '@/components/Hamburger/index.vue'
-import Breadcrumb from '@/components/Breadcrumb/index.vue'
+import Timezone from '@/components/Timezone/index.vue'
+// import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import Search from '@/components/HeaderSearch/index.vue'
 import ErrorLog from '@/components/ErrorLog/index.vue'
 // import Theme from '@/components/Theme/index.vue'
 // import Lang from './i18n/index.vue'
+import ChangePwd from './ChangePwd.vue'
+import { ref } from 'vue'
+const permission = usePermissionStore()
+const changePwdRef = ref()
+
 const toggleSideBar = () => {
 	app.sidebar.opened = !app.sidebar.opened
 }
@@ -23,11 +30,18 @@ const logout = () => {
   <div class="navbar flex justify-between">
     <div class="flex items-center">
       <hamburger id="hamburger-container" :is-active="app.sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
-      <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
+      <timezone />
     </div>
     <div class="right-menu flex items-center">
       <search id="header-search" class="right-menu-item"/>
       <ErrorLog class="right-menu-item" />
+      <router-link to="/system/config" v-if="permission.routesSourceObj['64e47052747b2f0010f39ab7']">
+        <a-button>
+          <template #icon>
+            <SettingOutlined />
+          </template>
+        </a-button>
+      </router-link>
       <!-- <Theme class="right-menu-item" />
       <Lang class="right-menu-item" /> -->
       <div class="avatar-container right-menu-item hover-effect">
@@ -41,9 +55,13 @@ const logout = () => {
               <router-link to="/">
                 <a-menu-item>Dashboard</a-menu-item>
               </router-link>
-              <a target="_blank" href="https://github.com/xiaolong0612/vite-vue3-ts-elementplus-admin">
+              <a target="_blank" href="https://github.com/xiaolong0612/vite-vue3-ant-admin">
                 <a-menu-item>Github</a-menu-item>
               </a>
+              <router-link to="/system/config" v-if="permission.routesSourceObj['64e47052747b2f0010f39ab7']">
+                <a-menu-item>系统配置</a-menu-item>
+              </router-link>
+              <a-menu-item @click="changePwdRef.handleUpdate">修改密码</a-menu-item>
               <a-menu-item divided @click="logout">
                 <span style="display:block;">Log Out</span>
               </a-menu-item>
@@ -53,8 +71,8 @@ const logout = () => {
       </div>
     </div>
   </div>
+  <change-pwd ref="changePwdRef" />
 </template>
-
 
 <style lang="scss" scoped>
 .navbar {

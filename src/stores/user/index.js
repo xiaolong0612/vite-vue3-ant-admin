@@ -2,20 +2,20 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-03-10 17:50:24
- * @LastEditTime: 2023-08-16 14:05:35
+ * @LastEditTime: 2023-08-21 22:56:55
  * @LastEditors: Amber
  */
 import { defineStore } from 'pinia'
 import { usePermissionStore } from '../permission'
 import { login, logout } from '@/api/admin'
+import { localCache } from '@/utils'
 
 export const useUserStore = defineStore('USER', {
 	state:() => ({
 		_id: '',
 		username: '',
 		role: '',
-		avatar: '',
-		token: ''
+		avatar: ''
 	}),
 	// computed
 	getters: {
@@ -52,12 +52,9 @@ export const useUserStore = defineStore('USER', {
 		},
 		resetToken() {
 			useUserStore().$reset()
+			localCache.removerCache('Authorization')
 			usePermissionStore().isUpdate = false
 		}
 	},
-	persist: {
-		enabled:true, //开起持久化
-		// storage: sessionStorage, //储存模式
-		// paths: ['userData'], //指定储存的store
-	}
+	persist: true
 })

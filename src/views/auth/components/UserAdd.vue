@@ -1,6 +1,6 @@
 <script setup>
 import { ref, inject, onMounted } from 'vue'
-import { deepClone, randomPwd, checkPwdLevel } from '@/utils'
+import { deepClone, randomPwd, checkPwdLevel, localCache } from '@/utils'
 import { getList as getRoleList } from '@/api/role'
 import { addAdmin, upadteAdmin } from '@/api/admin'
 const emit = defineEmits(['fetchData'])
@@ -194,6 +194,7 @@ onMounted(() => {
           list-type="picture-card"
           class="avatar-uploader"
           :show-upload-list="false"
+					:headers="{Authorization: localCache.getCache('Authorization')}"
           :action="$formatImgPath('/upload/avatar')"
           :before-upload="beforeUpload"
           @change="handleChange"

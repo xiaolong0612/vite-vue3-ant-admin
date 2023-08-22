@@ -2,24 +2,26 @@
  * @Description: 将ant-icon、iconfont、svg封装到一个组件
  * @Author: Amber
  * @Date: 2023-08-12 03:29:24
- * @LastEditTime: 2023-08-15 18:56:58
+ * @LastEditTime: 2023-08-22 01:41:56
  * @LastEditors: Amber
 -->
 <script setup>
 import { createFromIconfontCN } from '@ant-design/icons-vue'
 import { computed } from 'vue'
 import SvgIcon from '@/components/SvgIcon/index.vue'
+import defaultSettings from '@/settings'
+
 const IconFont = createFromIconfontCN({
-	scriptUrl: '//at.alicdn.com/t/c/font_4212007_exw7elikv1w.js', // 在 iconfont.cn 上生成
+	scriptUrl: defaultSettings.iconfont
 })
 const props = defineProps({
 	type: {
 		type: String,
-		default: 'smile-outlined'
+		default: ''
 	},
 	className: {
 		type: String,
-		default: 'smile-outlined'
+		default: ''
 	}
 })
 const typeIsAnt = computed(() => {

@@ -2,69 +2,66 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-03-10 17:50:24
- * @LastEditTime: 2023-08-11 16:34:27
+ * @LastEditTime: 2023-08-21 01:11:02
  * @LastEditors: Amber
 -->
 <script setup>
 import { computed, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
 import { useAppStore } from '@/stores/app'
-import AppMain from "./components/AppMain.vue"
+import AppMain from './components/AppMain.vue'
 import sidebar from './components/Sidebar/index.vue'
-import Navbar from "./components/Navbar.vue"
-import TagsView from "./components/TagsView/index.vue"
+import Navbar from './components/Navbar.vue'
+import TagsView from './components/TagsView/index.vue'
 // import Settings from "./components/Settings/index.vue"
 // import RightPanel from '@/components/RightPanel/index.vue'
 
 const app = useAppStore()
 let classObj = computed(() => {
-  return {
-    hideSidebar: !app.sidebar.opened,
-    openSidebar: app.sidebar.opened,
-    withoutAnimation: app.sidebar.withoutAnimation,
-    mobile: app.device === 'Mobile'
-  }
+	return {
+		hideSidebar: !app.sidebar.opened,
+		openSidebar: app.sidebar.opened,
+		withoutAnimation: app.sidebar.withoutAnimation,
+		mobile: app.device === 'Mobile'
+	}
 })
-const handleClickOutside = () => {
-  app.closeSideBar(false)
-}
 
 const { body } = document
 const WIDTH = 992
 
 onMounted(() => {
-  if (_isMobile()) {
-    app.toggleDevice('Mobile')
-    app.closeSideBar(true)
-  }
+	if (_isMobile()) {
+		app.toggleDevice('Mobile')
+		app.closeSideBar(true)
+	}
 })
 
 onBeforeMount(() => {
-  window.addEventListener('resize', () => {
-    _resizeHandler()
-  })
+	window.addEventListener('resize', () => {
+		_resizeHandler()
+	})
 })
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', () => {
-    _resizeHandler()
-  })
+	window.removeEventListener('resize', () => {
+		_resizeHandler()
+	})
 })
 const _isMobile = () => {
-  const rect = body.getBoundingClientRect()
-  return rect.width - 1 < WIDTH
+	const rect = body.getBoundingClientRect()
+	return rect.width - 1 < WIDTH
 }
 const _resizeHandler = () => {
-  if (!document.hidden) {
-    const isMobile = _isMobile()
-    app.toggleDevice(isMobile ? 'Mobile' : 'Desktop')
+	if (!document.hidden) {
+		const isMobile = _isMobile()
+		app.toggleDevice(isMobile ? 'Mobile' : 'Desktop')
 
-    if (isMobile) {
-      app.closeSideBar(true)
-    }
-  }
+		if (isMobile) {
+			app.closeSideBar(true)
+		}
+	}
 }
 
 const isCollapse = computed(() => {
-  return !app.sidebar.opened
+	return !app.sidebar.opened
 })
 
 </script>
@@ -78,12 +75,6 @@ const isCollapse = computed(() => {
       <a-layout-header style="background: #fff; padding: 0;height: auto;">
         <navbar />
         <tags-view v-if="app.tagsView" />
-        <!-- <menu-unfold-outlined
-          v-if="collapsed"
-          class="trigger"
-          @click="() => (collapsed = !collapsed)"
-        />
-        <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" /> -->
       </a-layout-header>
       <a-layout-content
         :style="{ padding: '16px', minHeight: '280px', overflow: 'auto' }"
@@ -92,20 +83,6 @@ const isCollapse = computed(() => {
       </a-layout-content>
     </a-layout>
   </a-layout>
-  <!-- <div :class="classObj" class="app-wrapper">
-    <div v-if="app.device === 'Mobile' && app.sidebar.opened" class="drawer-bg" @click="handleClickOutside" /> -->
-    <!-- <sidebar class="sidebar-container" /> -->
-    <!-- <div :class="{hasTagsView: app.tagsView}" class="main-container"> -->
-      <!-- <div :class="{'fixed-header':app.fixedHeader}">
-        <navbar />
-        <tags-view v-if="app.tagsView" />
-      </div> -->
-      <!-- <app-main /> -->
-      <!-- <RightPanel v-if="app.showSettings">
-        <Settings />
-      </RightPanel> -->
-    <!-- </div>
-  </div> -->
 </template>
 
 

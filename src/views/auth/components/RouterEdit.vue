@@ -1,7 +1,10 @@
 <script setup>
-import { ref, inject } from 'vue'
+import { ref, inject, reactive } from 'vue'
 import { deepClone } from '@/utils'
 import { addRouter, upadteRouter } from '@/api/router'
+import { usePermissionStore } from '@/stores/permission'
+
+const permission = usePermissionStore()
 const emit = defineEmits(['fetchData'])
 
 const $msg = inject('message')
@@ -19,6 +22,13 @@ defineProps({
 		default: () => []
 	}
 })
+// 获取路由完整的父级ids
+const getParentIdArr = (id, res = []) => {
+	res.unshift(id)
+	const hasParent = permission.routesSourceObj[id].parent_id
+	if(hasParent) return getParentIdArr(hasParent, res)
+	return res
+}
 
 const authList = ['添加', '编辑', '删除', '上传文件']
 const parent_id = ref([])
@@ -26,16 +36,39 @@ const tempSource = ref({})
 class Temp {
 	_id = undefined
 	parent_id = ''
-	hidden = false
-	path = 'index'
-	redirect = ''
-	component = 'articles/index'
-	name = '文章管理'
-	meta = {
-		title: '文章列表',
-		icon: 'laptop-outlined',
-		auth: ['添加', '编辑', '删除', '上传文件'],
-		sort: 0
+	menuType = 1
+	openType = 0
+	component = '/articles/index'
+	path = '/articles/index'
+	title = '文章列表'
+	icon = 'icon-wenzhang'
+	auth = ['添加', '编辑', '删除']
+	sort = 0
+	hidden = 0
+}
+
+const disabled = reactive({
+	openType: false,
+	component: false,
+	auth: false,
+	path: false
+})
+const changeMenuType = () => {
+	if(tempRef.value.menuType){
+		disabled.openType = false
+		disabled.auth = false
+	}else{
+		disabled.openType = true
+		disabled.auth = true
+	}
+}
+const changeOpenType = () => {
+	if(tempRef.value.openType == 2){
+		disabled.auth = true
+		disabled.path = true
+	}else{
+		disabled.auth = false
+		disabled.path = false
 	}
 }
 
@@ -53,13 +86,10 @@ const handleCreate = () => {
 }
 // add
 const createData = async () => {
-	tempRef.value.parent_id = parent_id.value[parent_id.value.length - 1]
-	const params = Object.assign(tempRef.value, {component: tempRef.value.componentStr})
-	delete params.componentStr
-	delete params.childred
-	await addRouter(params)
-	dialogVisible.value = false
+	tempRef.value.parent_id = parent_id.value.length != 0 ? parent_id.value[parent_id.value.length - 1] : ''
+	await addRouter(tempRef.value)
 	emit('fetchData')
+	dialogVisible.value = false
 }
 // 编辑
 const handleUpdate = (row) => {
@@ -68,18 +98,18 @@ const handleUpdate = (row) => {
 	tempRef.value = row
 	// 原数据
 	tempSource.value = Object.assign({}, deepClone(row))
-	parent_id.value = [tempRef.value.parent_id]
+	parent_id.value = getParentIdArr(tempRef.value.parent_id)
 	dialogVisible.value = true
 }
 // 更新
 const updateData = () => {
 	const hide = $msg.loading('更新中...', 0)
-	const params = Object.assign(tempRef.value, {component: tempRef.value.componentStr})
-	delete params.componentStr
-	delete params.childred
-	upadteRouter(params, {msgLoading: hide}).then(() => {
-		dialogVisible.value = false
+	tempRef.value.parent_id = parent_id.value.length != 0 ? parent_id.value[parent_id.value.length - 1] : ''
+	tempSource.value = deepClone(tempRef.value)
+	delete tempSource.value.children
+	upadteRouter(tempRef.value, {msgLoading: hide}).then(() => {
 		emit('fetchData')
+		dialogVisible.value = false
 	})
 }
 // 更新单个字段
@@ -106,101 +136,124 @@ defineExpose({
 })
 </script>
 <template>
-  <a-modal :title="textMap[dialogStatus]" v-model:open="dialogVisible" @ok="onSubmit" @cancel="onCancel">
+  <a-modal :title="textMap[dialogStatus]" :width="766" v-model:open="dialogVisible" @ok="onSubmit" @cancel="onCancel">
     <a-form
       :model="tempRef"
       name="basic"
       :label-col="{ span: 8 }"
-      :wrapper-col="{ span: 12 }"
       autocomplete="off"
     >
-      <a-form-item
-        label="是否禁用"
-        name="hidden"
-      >
-        <a-radio-group v-model:value="tempRef.hidden">
-          <a-radio :value="false">启用</a-radio>
-          <a-radio :value="true">禁用</a-radio>
-        </a-radio-group>
-      </a-form-item>
-
-      <a-form-item
-        label="父级菜单"
-        name="parent_id"
-      >
-      <a-cascader
-        v-model:value="parent_id"
-        :options="routerSource"
-        :fieldNames="{ label: 'title', value: '_id' }"
-        placeholder="默认一级菜单"
-        change-on-select
-      />
-      </a-form-item>
-
-      <a-form-item
-        label="访问路径"
-        name="path"
-        :rules="[{ required: true, message: '请填写!' }]"
-      >
-        <a-input v-model:value="tempRef.path" />
-      </a-form-item>
-      <a-form-item
-        label="重定向"
-        name="redirect"
-      >
-        <a-input v-model:value="tempRef.redirect" />
-      </a-form-item>
-      <a-form-item
-        label="模版"
-        name="componentStr"
-        :rules="[{ required: true, message: '请填写!' }]"
-      >
-        <a-input v-model:value="tempRef.componentStr" />
-      </a-form-item>
-      <a-form-item
-        label="命名(英文)"
-        name="name"
-        :rules="[{ required: true, message: '请填写!' }]"
-      >
-        <a-input v-model:value="tempRef.name" />
-      </a-form-item>
-
-      <a-form-item
-        label="标题"
-        name="meta.title"
-      >
-        <a-input v-model:value="tempRef.meta.title" />
-      </a-form-item>
-
-      <a-form-item
-        label="图标"
-        name="meta.icon"
-      >
-        <a-input v-model:value="tempRef.meta.icon">
-          <template #addonBefore>
-            <icon :icon="tempRef.meta.icon" />
-          </template>
-        </a-input>
-      </a-form-item>
-      
-      <a-form-item
-        label="排序"
-        name="meta.sort"
-      >
-        <a-input v-model:value="tempRef.meta.sort" />
-      </a-form-item>
-      <a-form-item
-        label="操作权限"
-        name="meta.auth"
-      >
-        <a-select v-model:value="tempRef.meta.auth" placeholder="请选择" mode="tags" showArrow>
-          <a-select-option v-for="item in authList"
-            :key="item"
-            :label="item"
-            :value="item"
-          />
-        </a-select>
-      </a-form-item>
+      <a-row>
+        <a-col :span="12">
+          <a-form-item
+            label="上级菜单"
+            name="parent_id"
+          >
+            <a-cascader
+              v-model:value="parent_id"
+              :options="routerSource"
+              :fieldNames="{ label: 'title', value: '_id' }"
+              placeholder="默认一级菜单"
+              change-on-select
+            />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item
+            label="菜单类型"
+            name="menuType"
+          >
+            <a-radio-group v-model:value="tempRef.menuType" @change="changeMenuType">
+              <a-radio :value="0">目录</a-radio>
+              <a-radio :value="1">菜单</a-radio>
+            </a-radio-group>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item
+            label="菜单名称"
+            name="title"
+            :rules="[{ required: true, message: '请填写!' }]"
+          >
+            <a-input v-model:value="tempRef.title" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item
+            label="打开方式"
+            name="openType"
+          >
+            <a-radio-group v-model:value="tempRef.openType" @change="changeOpenType" :disabled="disabled.openType">
+              <a-radio :value="0">组件</a-radio>
+              <a-radio :value="1">内链</a-radio>
+              <a-radio :value="2">外链</a-radio>
+            </a-radio-group>
+          </a-form-item>
+        </a-col>
+      </a-row>
+      <a-divider class="mt-0" />
+      <a-row>
+        <a-col :span="12">
+          <a-form-item
+            label="菜单图标"
+            name="icon"
+          >
+            <a-input v-model:value="tempRef.icon">
+              <template #addonBefore>
+                <icon :type="tempRef.icon" />
+              </template>
+            </a-input>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item
+            label="操作权限"
+            name="auth"
+          >
+            <a-select v-model:value="tempRef.auth" placeholder="请选择" mode="tags" showArrow :disabled="disabled.auth">
+              <a-select-option v-for="item in authList"
+                :key="item"
+                :label="item"
+                :value="item"
+              />
+            </a-select>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item
+            :label="['路由地址', '内链', '外链'][tempRef.openType]"
+            name="path"
+            :rules="[{ required: true, message: '请填写!' }]"
+          >
+            <a-input v-model:value="tempRef.path" :disabled="disabled.path" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item
+            label="排序"
+            name="sort"
+          >
+            <a-input v-model:value="tempRef.sort" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item
+            v-if="tempRef.openType == 0"
+            label="组件路径"
+            name="component"
+          >
+            <a-input v-model:value="tempRef.component" :disabled="disabled.component" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item
+            label="是否隐藏"
+            name="hidden"
+          >
+            <a-switch v-model:checked="tempRef.hidden" checked-children="是" un-checked-children="否" :checkedValue="1" :unCheckedValue="0" />
+          </a-form-item>
+        </a-col>
+      </a-row>
     </a-form>
   </a-modal>
 </template>
