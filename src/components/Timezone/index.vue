@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-20 02:14:14
- * @LastEditTime: 2023-08-21 02:24:55
+ * @LastEditTime: 2023-08-23 21:55:04
  * @LastEditors: Amber
 -->
 <script setup>
@@ -28,6 +28,7 @@ const onChange = (val) => {
 	app.config.lang = app.timezone.filter(item => item.value == val)[0].lang
 	const hide = $msg.loading('更新中...', 0)
 	upadteConfig(app.config, {msgLoading: hide})
+	app.changeLang(app.config.lang)
 }
 </script>
 <template>
@@ -40,7 +41,10 @@ const onChange = (val) => {
       @change="onChange"
     >
     </a-select>
-    <span class="time text-xl ml-2"><a-spin v-if="time == ''" />{{ time }}</span>
+    <a-tooltip>
+      <template #title>根据时区语言，自动修改；可在设置中单独配置后台语言</template>
+      <span class="time text-xl ml-2"><a-spin v-if="time == ''" />{{ time }}</span>
+    </a-tooltip>
   </div>
 </template>
 <style scoped lang="scss">

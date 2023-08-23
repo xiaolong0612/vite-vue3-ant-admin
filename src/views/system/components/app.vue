@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-20 21:23:25
- * @LastEditTime: 2023-08-22 17:04:52
+ * @LastEditTime: 2023-08-23 23:23:13
  * @LastEditors: Amber
 -->
 <script setup>
@@ -10,16 +10,17 @@ import { onMounted, reactive, inject, onUnmounted } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { deepClone } from '@/utils/index'
 import { upadteConfig } from '@/api/config'
+import { languagesPackage } from '@/locales'
 
 const $msg = inject('message')
 const app = useAppStore()
 
 const config = reactive(deepClone(app.config))
 
-const onFinish = values => {
+const onFinish = () => {
 	const hide = $msg.loading('更新中...', 0)
 	upadteConfig(app.config, {msgLoading: hide})
-	console.log('Success:', values)
+	app.changeLang(app.config.lang)
 }
 const onFinishFailed = errorInfo => {
 	console.log('Failed:', errorInfo)
@@ -54,18 +55,23 @@ onUnmounted(() => {
           <a-input v-model:value="app.config.title" />
         </a-form-item>
         <a-form-item
-          label="系统语言"
+          label="后台语言"
           name="lang"
-          :rules="[{ required: true, message: '请填写' }]"
         >
-          <a-input v-model:value="app.config.lang" />
+          <a-select
+            v-model:value="app.config.lang"
+            :options="languagesPackage"
+          />
         </a-form-item>
         <a-form-item
-          label="时区"
+          label="平台时区"
           name="timezone"
-          :rules="[{ required: true, message: '请填写' }]"
         >
-          <a-input v-model:value="app.config.timezone" />
+          <a-select
+            v-model:value="app.config.timezone"
+            :options="app.timezone"
+            disabled
+          />
         </a-form-item>
   
         <a-form-item :wrapper-col="{ offset: 8, span: 16 }">

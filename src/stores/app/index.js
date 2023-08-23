@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-03-10 17:50:24
- * @LastEditTime: 2023-08-22 02:30:59
+ * @LastEditTime: 2023-08-23 23:07:19
  * @LastEditors: Amber
  */
 import { defineStore } from 'pinia'
@@ -31,7 +31,6 @@ export const useAppStore = defineStore('APP', {
 		tagsView: tagsView,
 		fixedHeader: fixedHeader,
 		theme: isDark.value ? 'dark' : 'light',
-		lang: localCache.getItemCache('APP', 'lang') || defaultSettings.lang,
 		github: false,
 		config: localCache.getItemCache('APP', 'config'),
 		timezone: []
@@ -74,7 +73,7 @@ export const useAppStore = defineStore('APP', {
 	},
 	persist: [
 		{
-			paths: ['sidebar', 'size', 'showSettings', 'lang', 'config'],
+			paths: ['sidebar', 'size', 'showSettings', 'config'],
 			storage: localStorage
 		}, {
 			paths: ['theme', 'github', 'sidebarOpenKeys', 'sidebarSelectKeys'],

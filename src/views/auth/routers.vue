@@ -83,10 +83,8 @@ const handleDel = (row) => {
 // 递归静态更新
 const generateRoutes = (list, ids, type, params) => {
 	list.forEach((item, index) => {
-		console.log(item._id)
 		if(ids.includes(item._id)){
 			if(type == 'update'){
-				console.log('upload')
 				Object.assign(item, params)
 			}else{
 				delete list[index]

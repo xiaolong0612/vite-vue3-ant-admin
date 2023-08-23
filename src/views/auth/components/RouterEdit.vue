@@ -24,6 +24,7 @@ defineProps({
 })
 // 获取路由完整的父级ids
 const getParentIdArr = (id, res = []) => {
+	if(!id) return res
 	res.unshift(id)
 	const hasParent = permission.routesSourceObj[id].parent_id
 	if(hasParent) return getParentIdArr(hasParent, res)
@@ -98,7 +99,7 @@ const handleUpdate = (row) => {
 	tempRef.value = row
 	// 原数据
 	tempSource.value = Object.assign({}, deepClone(row))
-	parent_id.value = getParentIdArr(tempRef.value.parent_id)
+	parent_id.value = getParentIdArr(tempRef.value?.parent_id)
 	dialogVisible.value = true
 }
 // 更新

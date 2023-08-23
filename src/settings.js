@@ -2,13 +2,13 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-09 19:08:29
- * @LastEditTime: 2023-08-22 01:42:10
+ * @LastEditTime: 2023-08-23 23:28:54
  * @LastEditors: Amber
  */
 export default {
 	title: 'Vue Ant Admin',
 
-	lang:'zh-cn',
+	lang: 'zh_CN',
 
 	showSettings: true,
 
