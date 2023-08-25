@@ -39,11 +39,11 @@ class Temp {
 	parent_id = ''
 	menuType = 1
 	openType = 0
-	component = '/articles/index'
-	path = '/articles/index'
-	title = '文章列表'
-	icon = 'icon-wenzhang'
-	auth = ['添加', '编辑', '删除']
+	component = ''
+	path = ''
+	title = ''
+	icon = 'sliders-outlined'
+	auth = []
 	sort = 0
 	hidden = 0
 }
@@ -83,6 +83,12 @@ const resetTemp = () => {
 const handleCreate = () => {
 	resetTemp()
 	dialogStatus.value = 'create'
+	dialogVisible.value = true
+}
+const handleItemAdd = (row) => {
+	resetTemp()
+	dialogStatus.value = 'create'
+	parent_id.value = getParentIdArr(row?._id)
 	dialogVisible.value = true
 }
 // add
@@ -132,6 +138,7 @@ const onCancel = () => {
 
 defineExpose({
 	handleCreate,
+	handleItemAdd,
 	handleUpdate,
 	updateField
 })

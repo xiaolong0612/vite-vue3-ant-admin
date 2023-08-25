@@ -52,7 +52,7 @@ export const useUserStore = defineStore('USER', {
 		},
 		resetToken() {
 			useUserStore().$reset()
-			localCache.removerCache('Authorization')
+			localCache.removeCache('Authorization')
 			usePermissionStore().isUpdate = false
 		}
 	},

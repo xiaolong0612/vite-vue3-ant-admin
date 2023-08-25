@@ -4,7 +4,7 @@ import { ref, inject } from 'vue'
 import RouterEdit from './components/RouterEdit.vue'
 import { usePermissionStore } from '@/stores/permission'
 
-const whiteRoute = ['控制台', '权限管理', '用户管理', '角色管理', '菜单管理']
+const whiteRoute = ['控制台', '系统管理', '用户管理', '角色管理', '菜单管理']
 
 const $msg = inject('message')
 const permission = usePermissionStore()
@@ -42,7 +42,6 @@ const columns = [
 	}, {
 		title: '操作',
 		dataIndex: 'operation',
-		align: 'center'
 	}
 ]
 const list = ref(permission.routesTable)
@@ -53,13 +52,16 @@ const editRef = ref(null)
 const handleCreate = () => {
 	editRef.value.handleCreate()
 }
+const handleItemAdd = (row) => {
+	editRef.value.handleItemAdd(row)
+}
 // 编辑
 const handleUpdate = (row) => {
 	editRef.value.handleUpdate(row)
 }
 // 更新排序
 const handleUpdateSort = (row) => {
-	editRef.value.updateField({ meta: { sort: row.meta.sort }, _id: row._id }).then(async () => {
+	editRef.value.updateField({ sort: row.sort, _id: row._id }).then(async () => {
 		// await permission.generateRoutes()
 	})
 }
@@ -145,6 +147,7 @@ const delDate = async (ids) => {
             <a-space warp v-if="!whiteRoute.includes(record.title)">
               <a-button v-if="!record.hidden" class="color before:bg-rose-500" size="small" @click="handleUpdateHidden(record)">禁用</a-button>
               <a-button v-else class="color before:bg-green-500" size="small" @click="handleUpdateHidden(record)">启用</a-button>
+              <a-button v-if="record.menuType == 0" class="color before:bg-emerald-400" size="small" @click="handleItemAdd(record)">添加</a-button>
               <a-button class="color before:bg-blue-500" size="small" @click="handleUpdate(record)">编辑</a-button>
               <a-button danger size="small" @click="handleDel(record)">删除</a-button>
             </a-space>

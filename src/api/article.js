@@ -1,7 +1,13 @@
+/*
+ * @Description: 
+ * @Author: Amber
+ * @Date: 2023-08-10 00:25:11
+ * @LastEditTime: 2023-08-25 11:51:04
+ * @LastEditors: Amber
+ */
 import request from '@/utils/request'
 
 export function getList(params, config) {
-	// if (params.createdAt != null) params.createdAt[1] = params.createdAt[1] + ' 23:59:59'
 	return request({
 		url: '/articles/list',
 		method: 'get',

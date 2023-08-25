@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-10 03:04:59
- * @LastEditTime: 2023-08-23 23:20:03
+ * @LastEditTime: 2023-08-25 01:41:44
  * @LastEditors: Amber
  */
 import { createI18n } from 'vue-i18n'
@@ -45,7 +45,7 @@ console.log(localCache.getItemCache('APP', 'lang') || settings.lang)
 const i18n = createI18n({
 	legacy: false,
 	globalInjection: true,  // 全局模式，可以直接使用 $t
-	locale: localCache.getItemCache('APP', 'config').lang || settings.lang,
+	locale: localCache.getItemCache('APP', 'config')?.lang || settings.lang,
 	messages: messages
 })
 export default i18n

@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-09 19:09:00
- * @LastEditTime: 2023-08-23 23:11:45
+ * @LastEditTime: 2023-08-25 18:50:24
  * @LastEditors: Amber
  */
 import axios from 'axios'
@@ -26,7 +26,7 @@ service.interceptors.request.use(
 			config.loading.value = true
 		}
 		config.headers['Authorization'] = localCache.getCache('Authorization')
-		const lang = localCache.getItemCache('APP', 'config').lang
+		const lang = localCache.getItemCache('APP', 'config')?.lang
 		if(lang){
 			config.headers['accept-language'] = lang
 		}
@@ -63,11 +63,10 @@ service.interceptors.response.use(
 		const res = response.data
 		// if the custom code is not 20000, it is judged as an error.
 		if (res.code !== 20000) {
-			if(msgShow) message.error(res.msg || 'Error')
 			// 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-			if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-				localCache.removerCache('USER')
-				localCache.removerCache('Authorization')
+			if ([50008, 50012, 50014].includes(res.code)) {
+				localCache.removeCache('USER')
+				localCache.removeCache('Authorization')
 				// to re-login
 				Modal.confirm({
 					title: res.msg || '您已注销，可以取消以留在此页面，也可以重新登录',
@@ -76,16 +75,18 @@ service.interceptors.response.use(
 						location.reload()
 					}
 				})
+			} else {
+				if(msgShow) message.error(res.msg || 'Error')
+				return res
 			}
-			return Promise.reject(new Error(res.msg || 'Error'))
 		} else {
 			if(res.msg && msgShow) message.success(res.msg)
 			return res
 		}
 	},
 	error => {
-		if (error.config.loading) error.config.loading.value = false
-		if(error.config.msgLoading) error.config.msgLoading()
+		if (error.config?.loading) error.config.loading.value = false
+		if(error.config?.msgLoading) error.config.msgLoading()
 		console.log('err' + error) // for debug
 		message.error(error.message || 'Error')
 		return Promise.reject(error)

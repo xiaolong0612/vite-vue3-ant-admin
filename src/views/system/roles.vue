@@ -9,7 +9,6 @@ const $msg = inject('message')
 const route = useRoute()
 
 const auth = route.meta.auth
-console.log(auth)
 const editRef = ref(null)
 const authorizeRef = ref(null)
 

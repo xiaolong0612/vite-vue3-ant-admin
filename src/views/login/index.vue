@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
 
-    <div class="login-container flex flex-col justify-center">
+    <div class="login-container flex flex-col justify-center md:w-1/3 max-sm:w-9/12">
       <div class="title-container mb-5">
         <h3 class="text-5xl">登陆</h3>
       </div>
@@ -28,11 +28,11 @@
           name="password"
           has-feedback
         >
-          <a-input-password v-model:value="loginForm.password" />
+          <a-input-password v-model:value="loginForm.password" @change="remember"/>
         </a-form-item>
   
         <a-form-item name="remember">
-          <a-checkbox v-model:checked="loginForm.remember">Remember me</a-checkbox>
+          <a-checkbox v-model:checked="loginForm.remember" @change="remember">Remember me</a-checkbox>
         </a-form-item>
   
         <a-form-item>
@@ -48,16 +48,28 @@
 import { ref, reactive } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
+import { localCache } from '@/utils'
+import device from 'current-device'
+import { Base64 } from 'js-base64'
 
 const user = useUserStore()
 const router = useRouter()
 
+
 const loginForm = reactive({
 	username: 'admin',
-	password: 'a123456',
+	password: '',
 	remember: false
 })
-
+if(localCache.getCache('REMEMBER')){
+	let temp = Base64.decode(localCache.getCache('REMEMBER')).split('^_^')
+	if(temp[1] == device.os){
+		loginForm.password = Base64.decode(temp[0])
+	} else {
+		loginForm.password = temp[0]
+	}
+	loginForm.remember = true
+}
 const validateUsername = (_rule, value) => {
 	if (value.length < 5) {
 		return Promise.reject('请输入正确的账号')
@@ -90,6 +102,13 @@ const checkCapslock = (e) => {
 	const { key } = e
 	capsTooltip.value = key && key.length === 1 && (key >= 'A' && key <= 'Z')
 }
+const remember = () => {
+	if(loginForm.remember) {
+		localCache.setCache('REMEMBER', Base64.encode(Base64.encode(loginForm.password) +'^_^'+ device.os))
+	} else {
+		localCache.removeCache('REMEMBER')
+	}
+}
 </script>
 
 <style lang="scss" scoped>
@@ -100,7 +119,6 @@ const checkCapslock = (e) => {
   background-size: cover;
   overflow: hidden;
   .login-container{
-    width: 500px;
     margin-left: 15vw;
     height: 100vh;
   }

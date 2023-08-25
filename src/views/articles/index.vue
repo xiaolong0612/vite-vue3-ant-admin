@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-17 02:31:28
- * @LastEditTime: 2023-08-20 02:03:14
+ * @LastEditTime: 2023-08-25 18:43:28
  * @LastEditors: Amber
 -->
 <script setup>
@@ -13,7 +13,7 @@ import Pagination from '@/components/Pagination/index.vue'
 import { onMounted, ref, unref, computed, reactive, inject } from 'vue'
 import { useUnix } from '@/hooks/useUnix'
 
-const { rangePickerDate, formatArrDate } = useUnix()
+const { rangePickerDate, arrDateToUnix } = useUnix()
 
 const $msg = inject('message')
 
@@ -92,7 +92,7 @@ const rowSelection = computed(() => {
 	}
 })
 const fetchDate = () => {
-	formatArrDate(params, 'createdAt')
+	arrDateToUnix(params, 'createdAt')
 	getList({params: params.value, op}, {loading: loading}).then(result => {
 		dataSource.value = result.data.list
 		total.value = result.data.total

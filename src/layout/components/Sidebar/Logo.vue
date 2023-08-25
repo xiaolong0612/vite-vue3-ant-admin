@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-03-10 17:50:24
- * @LastEditTime: 2023-08-13 18:34:09
+ * @LastEditTime: 2023-08-25 03:23:52
  * @LastEditors: Amber
 -->
 <script setup>
@@ -51,9 +51,7 @@ defineProps({
   & .sidebar-logo-link {
     height: 100%;
     width: 100%;
-    display: flex;
-    place-items: center;
-    place-content: center;
+
     & .sidebar-logo {
       width: 32px;
       height: 32px;
@@ -73,7 +71,7 @@ defineProps({
     }
   }
 
-  &.is-collapse {
+  &.collapse {
     .sidebar-logo {
       margin-right: 0px;
     }
