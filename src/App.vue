@@ -2,20 +2,18 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-09 12:45:08
- * @LastEditTime: 2023-08-27 09:32:35
+ * @LastEditTime: 2023-08-27 12:11:58
  * @LastEditors: Amber
 -->
 <script setup>
-import zhCN from 'ant-design-vue/es/locale/zh_CN'
-// import dayjs from 'dayjs';
-// import 'dayjs/locale/zh-cn';
-// dayjs.locale('zh-cn');
 import { theme } from 'ant-design-vue'
 import { computed } from 'vue'
 import { useAppStore } from '@/stores/app'
-
+import { messages } from '@/locales'
 const app = useAppStore()
-const locale = zhCN
+const locale = computed(() => {
+	return messages[app.config.lang]
+})
 const { darkAlgorithm, compactAlgorithm } = theme
 const useTheme = computed(() => {
 	if(app.theme == 'dark'){
