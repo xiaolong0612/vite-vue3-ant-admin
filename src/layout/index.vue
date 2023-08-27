@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-03-10 17:50:24
- * @LastEditTime: 2023-08-21 01:11:02
+ * @LastEditTime: 2023-08-25 22:45:23
  * @LastEditors: Amber
 -->
 <script setup>
@@ -71,14 +71,12 @@ const isCollapse = computed(() => {
       <div class="logo" />
       <sidebar class="sidebar-container" />
     </a-layout-sider>
-    <a-layout>
-      <a-layout-header style="background: #fff; padding: 0;height: auto;">
+    <a-layout :class="{hasTagsView: app.tagsView}" class="main-container h-screen">
+      <div :class="{'fixed-header': app.fixedHeader}">
         <navbar />
         <tags-view v-if="app.tagsView" />
-      </a-layout-header>
-      <a-layout-content
-        :style="{ padding: '16px', minHeight: '280px', overflow: 'auto' }"
-      >
+      </div>
+      <a-layout-content class="app-main">
         <app-main />
       </a-layout-content>
     </a-layout>
@@ -122,10 +120,31 @@ const isCollapse = computed(() => {
   }
 
   .hideSidebar .fixed-header {
-    width: calc(100% - 54px)
+    width: calc(100% - 80px)
   }
 
   .mobile .fixed-header {
     width: 100%;
   }
+  .app-main {
+  /* 50= navbar  50  */
+  width: 100%;
+  position: relative;
+  box-sizing: content-box;
+}
+
+.fixed-header+.app-main {
+  padding-top: 50px;
+}
+
+.hasTagsView {
+  .app-main {
+    /* 84 = navbar + tags-view = 50 + 34 */
+    min-height: calc(100vh - 84px);
+  }
+
+  .fixed-header+.app-main {
+    padding-top: 84px;
+  }
+}
 </style>

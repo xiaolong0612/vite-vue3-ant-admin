@@ -2,7 +2,7 @@
  * @Description: 错误日志
  * @Author: Amber
  * @Date: 2023-03-15 10:42:21
- * @LastEditTime: 2023-08-11 17:18:38
+ * @LastEditTime: 2023-08-26 14:29:12
  * @LastEditors: Amber
 -->
 <script setup>
@@ -37,11 +37,7 @@ const clearAll = () => {
 <template>
   <div v-if="errorLogs.length > 0 && checkNeed()">
     <a-badge :dot="true">
-      <a-button @click="toggle">
-        <template #icon>
-          <BugOutlined />
-        </template>
-      </a-button>
+      <BugOutlined @click="toggle" class="text-xl text-black-500 dark:text-gray-500" />
     </a-badge>
 
     <a-modal v-model:open="dialogTableVisible" :footer="null" width="500">

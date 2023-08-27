@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-17 02:31:28
- * @LastEditTime: 2023-08-25 18:43:28
+ * @LastEditTime: 2023-08-27 10:33:52
  * @LastEditors: Amber
 -->
 <script setup>
@@ -127,109 +127,109 @@ onMounted(() => {
 </script>
 <template>
   <div class="filter-container">
-      <a-form layout="inline">
-        <a-form-item label="标题">
-          <a-input v-model:value="params.title" allow-clear />
-        </a-form-item>
-        <a-form-item label="简介">
-          <a-input v-model:value="params.description" allow-clear />
-        </a-form-item>
-        <a-form-item label="内容">
-          <a-input v-model:value="params.body" allow-clear />
-        </a-form-item>
-        <a-form-item label="粉丝">
-          <a-input-group compact class="w-52">
-            <a-input-number v-model:value="params.fans[0]" style="width: 50%" :min="0" placeholder="最小" />
-            <a-input-number v-model:value="params.fans[1]" style="width: 50%" :min="0" placeholder="最大" />
-          </a-input-group>
-        </a-form-item>
-        <a-form-item label="创建时间">
-          <a-range-picker
-            v-model:value="rangePickerDate"
-            :disabled-date="disabledDate"
-            :show-time="{
-              hideDisabledOptions: true,
-              defaultValue: [dayjs('00:00:00', 'HH:mm:ss'), dayjs('23:59:59', 'HH:mm:ss')],
-            }"
-            format="YYYY-MM-DD HH:mm:ss"
+    <a-form layout="inline">
+      <a-form-item label="标题">
+        <a-input v-model:value="params.title" allow-clear placeholder="请填写标题" />
+      </a-form-item>
+      <a-form-item label="简介">
+        <a-input v-model:value="params.description" allow-clear />
+      </a-form-item>
+      <a-form-item label="内容">
+        <a-input v-model:value="params.body" allow-clear />
+      </a-form-item>
+      <a-form-item label="粉丝">
+        <a-input-group compact class="w-52">
+          <a-input-number v-model:value="params.fans[0]" style="width: 50%" :min="0" placeholder="最小" />
+          <a-input-number v-model:value="params.fans[1]" style="width: 50%" :min="0" placeholder="最大" />
+        </a-input-group>
+      </a-form-item>
+      <a-form-item label="创建时间">
+        <a-range-picker
+          v-model:value="rangePickerDate"
+          :disabled-date="disabledDate"
+          :show-time="{
+            hideDisabledOptions: true,
+            defaultValue: [dayjs('00:00:00', 'HH:mm:ss'), dayjs('23:59:59', 'HH:mm:ss')],
+          }"
+          format="YYYY-MM-DD HH:mm:ss"
+        />
+      </a-form-item>
+      <a-form-item>
+        <a-button type="primary" @click="fetchDate">搜索</a-button>
+      </a-form-item>
+    </a-form>
+  </div>
+  <div class="content-main">
+    <a-table :columns="columns" :data-source="dataSource" :rowKey="record => record._id" :loading="loading" :pagination="false" :row-selection="rowSelection">
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'title'">
+          <a-input
+            v-if="editableData[record._id]"
+            v-model:value="editableData[record._id][column.dataIndex]"
+            style="margin: -5px 0"
           />
-        </a-form-item>
-        <a-form-item>
-          <a-button type="primary" @click="fetchDate">搜索</a-button>
-        </a-form-item>
-      </a-form>
-    </div>
-    <div class="content-main">
-      <a-table :columns="columns" :data-source="dataSource" :rowKey="record => record._id" :loading="loading" :pagination="false" :row-selection="rowSelection">
-        <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'title'">
-            <a-input
-              v-if="editableData[record._id]"
-              v-model:value="editableData[record._id][column.dataIndex]"
-              style="margin: -5px 0"
+          <template v-else>{{ record.title }}</template>
+        </template>
+        <template v-if="column.key === 'username'">
+          <a-avatar :src="$formatImgPath(record.avatar)" />
+          {{ record.username }}
+        </template>
+        <template v-if="column.key === 'description'">
+          <a-input
+            v-if="editableData[record._id]"
+            v-model:value="editableData[record._id][column.dataIndex]"
+            style="margin: -5px 0"
+          />
+          <template v-else>{{ record.description }}</template>
+        </template>
+        <template v-if="column.key === 'body'">
+          <a-input
+            v-if="editableData[record._id]"
+            v-model:value="editableData[record._id][column.dataIndex]"
+            style="margin: -5px 0"
+          />
+          <template v-else>{{ record.body }}</template>
+        </template>
+        <template v-if="column.key === 'fans'">
+          <a-input
+            v-if="editableData[record._id]"
+            v-model:value="editableData[record._id][column.dataIndex]"
+            style="margin: -5px 0"
+          />
+          <template v-else>{{ record.fans }}</template>
+        </template>
+        <template v-if="column.key === 'tagList'">
+          <a-select v-if="editableData[record._id]" v-model:value="editableData[record._id][column.dataIndex]" placeholder="请选择" mode="tags" showArrow>
+            <a-select-option v-for="item in record.tagList"
+              :key="item"
+              :label="item"
+              :value="item"
             />
-            <template v-else>{{ record.title }}</template>
-          </template>
-          <template v-if="column.key === 'username'">
-            <a-avatar :src="$formatImgPath(record.avatar)" />
-            {{ record.username }}
-          </template>
-          <template v-if="column.key === 'description'">
-            <a-input
-              v-if="editableData[record._id]"
-              v-model:value="editableData[record._id][column.dataIndex]"
-              style="margin: -5px 0"
-            />
-            <template v-else>{{ record.description }}</template>
-          </template>
-          <template v-if="column.key === 'body'">
-            <a-input
-              v-if="editableData[record._id]"
-              v-model:value="editableData[record._id][column.dataIndex]"
-              style="margin: -5px 0"
-            />
-            <template v-else>{{ record.body }}</template>
-          </template>
-          <template v-if="column.key === 'fans'">
-            <a-input
-              v-if="editableData[record._id]"
-              v-model:value="editableData[record._id][column.dataIndex]"
-              style="margin: -5px 0"
-            />
-            <template v-else>{{ record.fans }}</template>
-          </template>
-          <template v-if="column.key === 'tagList'">
-            <a-select v-if="editableData[record._id]" v-model:value="editableData[record._id][column.dataIndex]" placeholder="请选择" mode="tags" showArrow>
-              <a-select-option v-for="item in record.tagList"
-                :key="item"
-                :label="item"
-                :value="item"
-              />
-            </a-select>
-            <template v-else>
-              <!-- <a-tag color="blue" v-for="item in record.tagList" :key="item+new Date().getTime()">{{ item }}</a-tag> -->
-            </template>
-          </template>
-          <template v-if="column.key === 'createdAt'">
-            {{ $parseTime(record.createdAt) }}
-          </template>
-          <template v-if="column.dataIndex === 'operation'">
-            <a-space warp>
-              <a-button v-if="!editableData[record._id]" type="primary" size="small" @click="handleUpdate(record._id)">编辑</a-button>
-              <template v-else>
-                <a-button class="color before:bg-green-500" size="small" @click="update(record._id)">保存</a-button>
-                <a-button size="small" @click="handleCancel(record._id)">取消</a-button>
-              </template>
-              <a-popconfirm
-                :title="'确定删除 ' + record.title + '?'"
-                @confirm="del([record._id])"
-              >
-                <a-button danger size="small">删除</a-button>
-              </a-popconfirm>
-            </a-space>
+          </a-select>
+          <template v-else>
+            <!-- <a-tag color="blue" v-for="item in record.tagList" :key="item+new Date().getTime()">{{ item }}</a-tag> -->
           </template>
         </template>
-      </a-table>
-      <pagination :total="total" v-model:current="params.page" :page-size="params.limit" :multipleSelection="selectedRowKeys" @pagination="fetchDate" @on-dels="handleDels" />
-    </div>
+        <template v-if="column.key === 'createdAt'">
+          {{ $parseTime(record.createdAt) }}
+        </template>
+        <template v-if="column.dataIndex === 'operation'">
+          <a-space warp>
+            <a-button v-if="!editableData[record._id]" type="primary" size="small" @click="handleUpdate(record._id)">编辑</a-button>
+            <template v-else>
+              <a-button class="color before:bg-green-500" size="small" @click="update(record._id)">保存</a-button>
+              <a-button size="small" @click="handleCancel(record._id)">取消</a-button>
+            </template>
+            <a-popconfirm
+              :title="'确定删除 ' + record.title + '?'"
+              @confirm="del([record._id])"
+            >
+              <a-button danger size="small">删除</a-button>
+            </a-popconfirm>
+          </a-space>
+        </template>
+      </template>
+    </a-table>
+    <pagination :total="total" v-model:current="params.page" v-model:page-size="params.limit" :multipleSelection="selectedRowKeys" @pagination="fetchDate" @on-dels="handleDels" />
+  </div>
 </template>

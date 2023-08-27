@@ -2,9 +2,11 @@
 // base color
 $blue:#324157;
 $light-blue:#3A71A8;
+$light2-blue:#4096ff;
 $red:#C03639;
 $pink: #E65D6E;
 $green: #30B08F;
+$gray: rgb(161 161 170);
 $tiffany: #4AB7BD;
 $yellow:#FEC171;
 $panGreen: #30B08F;
@@ -20,14 +22,14 @@ $menuHover:#263445;
 $subMenuBg:#1f2d3d;
 $subMenuHover:#001528;
 
-$sideBarWidth: 210px;
+$sideBarWidth: 200px;
 
 // box-shadow
 $shadowLight: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 $shadowDark: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 
 // dark
-$darkBg: #1d1e1f;
+$darkBg: #080808;
 $darkHeaderBg: #213d5b;
 // dark tag
 $darkTagBg: #202121;
@@ -36,8 +38,9 @@ $darkTagBorder: #4c4d4f;
 $darkTagActiveBg: #1c2518;
 $darkTagActiveText: #67c23a;
 $darkTagActiveBorder: #25371c;
+$darkTrBg: #303030;
 
-$darkGray: #97a8be;
+$darkGray: #1f1f1f;
 $darkWhite: #fff;
 $darkShadow: 0 1px 4px #5b5b5b;
 $darkBorder: #4c4d4f;
@@ -50,13 +53,5 @@ $darkSubMenuHover:#363637;
 $darkTipBg: rgb(64 158 255 / 10%);
 
 :export {
-  menuText: $menuText;
-  menuActiveText: $menuActiveText;
-  subMenuActiveText: $subMenuActiveText;
-  menuBg: $menuBg;
-  menuHover: $menuHover;
-  subMenuBg: $subMenuBg;
-  subMenuHover: $subMenuHover;
-  sideBarWidth: $sideBarWidth;
   darkBg: $darkBg;
 }

@@ -178,7 +178,7 @@ onMounted(() => {
         <a-input v-model:value="tempRef.password" placeholder="密码必需包含大小写字母、数字、符号任意两者组合!">
           <template #suffix>
             <a-tooltip title="刷新">
-              <redo-outlined :spin="spin" style="color: rgba(0, 0, 0, 0.45)" @click="getRandomPwd" />
+              <redo-outlined :spin="spin" @click="getRandomPwd" />
             </a-tooltip>
           </template>
         </a-input>
@@ -199,7 +199,7 @@ onMounted(() => {
           :before-upload="beforeUpload"
           @change="handleChange"
         >
-          <img v-if="tempRef.avatar" class="rounded" :src="$formatImgPath(tempRef.avatar)" alt="avatar" />
+          <img v-if="tempRef.avatar" class="w-full" :src="$formatImgPath(tempRef.avatar)" alt="avatar" />
           <div v-else>
             <loading-outlined v-if="loading" />
             <plus-outlined v-else />

@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-09 19:08:29
- * @LastEditTime: 2023-08-23 23:28:54
+ * @LastEditTime: 2023-08-26 00:30:34
  * @LastEditors: Amber
  */
 export default {
@@ -30,7 +30,7 @@ export default {
 	/**
     * @description iconfont path, 在 iconfont.cn 上生成
     */
-	iconfont: '//at.alicdn.com/t/c/font_4212007_d1p3luz6l0h.js',
+	iconfont: '//at.alicdn.com/t/c/font_4212007_2tznd0oifxu.js',
 
 	/**
    * @type 'production' | ['production', 'development']

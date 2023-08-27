@@ -1,1 +1,85 @@
 @import './_variables.module.scss';
+
+html.dark {
+  #app {
+    aside {
+      background-color: $darkGray;
+      color: $darkGray;
+    }
+    .main-container{
+      background-color: $darkBg;
+      .filter-container {
+        background-color: $darkGray;
+      }
+    }
+    .content-main{
+      background-color: $darkGray;
+      border-bottom-color: #000;
+    }
+  }
+  .navbar {
+    background-image: radial-gradient(transparent 1px,$darkBg 1px);
+    border-bottom: 1px solid $darkBorder;
+    .hamburger-container{
+      svg {
+        path{
+          fill: $darkTagText;
+        }
+      }
+    }
+    .right-menu {
+      color: $darkGray;
+    }
+  }
+  .tags-view-container{
+    background-image: radial-gradient(transparent 1px,$darkBg 1px);
+    border:  0 solid;
+    box-shadow: $darkShadow;
+    .tags-view-wrapper {
+      .tags-view-item {
+        background-color: $darkTagBg;
+        color: $darkTagText;
+        border: 1px solid $darkTagBorder;
+        border-radius: 4px;
+        &.active {
+          background-color: $darkTagActiveBg;
+          color: $darkTagActiveText;
+          border: 1px solid $darkTagActiveBorder;
+        }
+      }
+    }
+  }
+  .sidebar-container{
+    .ant-menu-dark{
+      background: border-box;
+    }
+  }
+  .dashboard-container {
+    .panel-group {
+      .card-panel {
+        background-color: $darkBg;
+        .card-panel-text {
+          color: $darkGray;
+        }
+        .card-panel-num {
+          color: $darkWhite;
+        }
+      }
+    }
+  }
+  .custom-block {
+    &.tip {
+      background-color: $darkTipBg;
+    }
+  }
+  .color[type="button"] {
+    &::before{
+      opacity: .8;
+    }
+    &:hover{
+      &::before{
+        opacity: 1;
+      }
+    }
+  }
+}

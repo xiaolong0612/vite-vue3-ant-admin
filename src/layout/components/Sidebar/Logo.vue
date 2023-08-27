@@ -2,12 +2,16 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-03-10 17:50:24
- * @LastEditTime: 2023-08-25 03:23:52
+ * @LastEditTime: 2023-08-27 10:56:41
  * @LastEditors: Amber
 -->
 <script setup>
 import { ref, defineProps } from 'vue'
 import settings from '@/settings'
+import { usePermissionStore } from '@/stores/permission'
+
+const permission = usePermissionStore()
+
 const title = settings.title
 const logo = ref('https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png')
 defineProps({
@@ -15,36 +19,31 @@ defineProps({
 })
 </script>
 <template>
-  <div class="sidebar-logo-container" :class="{'is-collapse': collapse}">
-    <transition name="sidebarLogoFade">
-      <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
+  <transition
+    enter-active-class="animate__animated animate__bounceInRight"
+  >
+    <div class="sidebar-logo-container" :class="{'is-collapse': collapse}" v-if="collapse">
+      <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" :to="permission.addRoutes[0].path">
         <img v-if="logo" :src="logo" class="sidebar-logo">
         <h1 v-else class="sidebar-title">{{ title }} </h1>
       </router-link>
-      <router-link v-else key="expand" class="sidebar-logo-link" to="/">
+    </div>
+    <div class="sidebar-logo-container" :class="{'is-collapse': collapse}" v-else>
+      <router-link key="expand" class="sidebar-logo-link" :to="permission.addRoutes[0].path">
         <img v-if="logo" :src="logo" class="sidebar-logo">
         <h1 class="sidebar-title">{{ title }} </h1>
       </router-link>
-    </transition>
-  </div>
+    </div>
+  </transition>
 </template>
 
 <style lang="scss" scoped>
-.sidebarLogoFade-enter-active {
-  transition: opacity 1.5s;
-}
-
-.sidebarLogoFade-enter,
-.sidebarLogoFade-leave-to {
-  opacity: 0;
-}
 
 .sidebar-logo-container {
   position: relative;
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background: #2b2f3a;
   text-align: center;
   overflow: hidden;
 
@@ -66,12 +65,11 @@ defineProps({
       font-weight: 600;
       line-height: 50px;
       font-size: 14px;
-      font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
       vertical-align: middle;
     }
   }
 
-  &.collapse {
+  &.is-collapse {
     .sidebar-logo {
       margin-right: 0px;
     }

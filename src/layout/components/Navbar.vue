@@ -7,7 +7,7 @@ import Timezone from '@/components/Timezone/index.vue'
 // import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import Search from '@/components/HeaderSearch/index.vue'
 import ErrorLog from '@/components/ErrorLog/index.vue'
-// import Theme from '@/components/Theme/index.vue'
+import Theme from '@/components/Theme/index.vue'
 // import Lang from './i18n/index.vue'
 import ChangePwd from './ChangePwd.vue'
 import { ref } from 'vue'
@@ -35,20 +35,20 @@ const logout = () => {
     <div class="right-menu flex items-center">
       <search id="header-search" class="right-menu-item"/>
       <ErrorLog class="right-menu-item" />
-      <router-link to="/system/config" v-if="permission.routesSourceObj['64e47052747b2f0010f39ab7']">
+      <!-- <router-link to="/system/config" class="right-menu-item" v-if="permission.routesSourceObj['64e47052747b2f0010f39ab7']">
         <a-button>
           <template #icon>
             <SettingOutlined />
           </template>
         </a-button>
-      </router-link>
-      <!-- <Theme class="right-menu-item" />
-      <Lang class="right-menu-item" /> -->
+      </router-link> -->
+      <Theme class="relative flex right-menu-item" />
+      <!-- <Lang class="right-menu-item" /> -->
       <div class="avatar-container right-menu-item hover-effect">
         <a-dropdown>
           <div class="avatar-wrapper flex items-end">
             <img :src="$formatImgPath(user.avatar)" class="user-avatar">
-            <DownOutlined class="text-sm" />
+            <DownOutlined class="text-sm dark:text-gray-500" />
           </div>
           <template #overlay>
             <a-menu>
@@ -62,6 +62,7 @@ const logout = () => {
                 <a-menu-item>系统配置</a-menu-item>
               </router-link>
               <a-menu-item @click="changePwdRef.handleUpdate">修改密码</a-menu-item>
+              <a-menu-divider />
               <a-menu-item divided @click="logout">
                 <span style="display:block;">Log Out</span>
               </a-menu-item>
@@ -112,9 +113,10 @@ const logout = () => {
     }
 
     .right-menu-item {
-      display: inline-block;
       padding: 0 8px;
-
+      margin-left: 2px;
+      cursor: pointer;
+      display: inherit;
       &.hover-effect {
         cursor: pointer;
         transition: background .3s;

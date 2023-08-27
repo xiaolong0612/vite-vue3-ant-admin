@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-03-10 17:50:24
- * @LastEditTime: 2023-08-22 13:47:41
+ * @LastEditTime: 2023-08-26 12:37:27
  * @LastEditors: Amber
  */
 import { defineStore } from 'pinia'
@@ -91,7 +91,7 @@ export const usePermissionStore = defineStore('PERMISSION', {
 				getRoleRouters().then(response => {
 					const { data } = response
 					if (!data) {
-						return reject('Verification failed, please Login again.')
+						console.error('Verification failed, please Login again.')
 					}
 					const routers = generator(data.list)
 					this.addRoutes = deepClone(routers)

@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-19 00:21:31
- * @LastEditTime: 2023-08-19 02:12:14
+ * @LastEditTime: 2023-08-26 13:22:32
  * @LastEditors: Amber
 -->
 <script setup>
@@ -52,7 +52,7 @@ const currentPage = computed({
 
 const onShowSizeChange = (current, pageSize) => {
 	emit('update:pageSize', pageSize)
-	emit('pagination', {current, pageSize})
+	// emit('pagination', {current, pageSize})
 }
 const onChange = (page, pageSize) => {
 	console.log(page, pageSize)
@@ -74,7 +74,7 @@ const handleDels = () => {
           <a-button v-show="multipleSelection.length != 0" class="color before:bg-red-500 mr-5" size="small">删除</a-button>
         </a-popconfirm>
         <a-typography-text class="text-blue-500">{{ multipleSelection.length }}</a-typography-text>
-        <a-typography-text> 条已选</a-typography-text>
+        <a-typography-text class="dark:text-zinc-400"> 条已选</a-typography-text>
       </template>
       <slot />
     </div>

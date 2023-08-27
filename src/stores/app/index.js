@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-03-10 17:50:24
- * @LastEditTime: 2023-08-23 23:07:19
+ * @LastEditTime: 2023-08-25 22:51:13
  * @LastEditors: Amber
  */
 import { defineStore } from 'pinia'
@@ -14,7 +14,6 @@ import { getConfig, getTimezone } from '@/api/config'
 
 const { showSettings, tagsView, fixedHeader, sidebarLogo } = defaultSettings
 const isDark = useDark()
-
 export const useAppStore = defineStore('APP', {
 	state:() => ({
 		title: null,

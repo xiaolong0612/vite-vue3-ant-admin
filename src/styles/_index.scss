@@ -1,9 +1,8 @@
 // 入口
 @import './_reset.scss';
 @import './_button.scss';
-@import './_animation.scss';
+@import 'animate.css';
 @import './_tailwind.css';
-@import 'ant-design-vue/dist/reset.css';
 @import './ant.scss';
 @import './_variables.module.scss';
 @import './_mixin.scss';
@@ -64,13 +63,15 @@
 
 .filter-container {
   padding: 20px 20px 10px;
-  border-bottom: 20px solid #f5f5f5;
   background-color: #fff;
+  margin: 16px 16px 0 16px;
   .ant-form-item {
     margin-bottom: 10px;
   }
 }
 .content-main{
   padding: 20px;
+  margin: 16px;
   background-color: #fff;
+  border-bottom: 16px solid #f5f5f5;
 }

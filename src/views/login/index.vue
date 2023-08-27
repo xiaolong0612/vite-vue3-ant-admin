@@ -32,7 +32,9 @@
         </a-form-item>
   
         <a-form-item name="remember">
-          <a-checkbox v-model:checked="loginForm.remember" @change="remember">Remember me</a-checkbox>
+          <a-checkbox v-model:checked="loginForm.remember" @change="remember">
+            <span class="dark:text-slate-600">Remember me</span>
+          </a-checkbox>
         </a-form-item>
   
         <a-form-item>

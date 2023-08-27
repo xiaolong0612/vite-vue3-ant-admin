@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-20 02:14:14
- * @LastEditTime: 2023-08-23 21:55:04
+ * @LastEditTime: 2023-08-26 00:25:20
  * @LastEditors: Amber
 -->
 <script setup>
@@ -33,7 +33,7 @@ const onChange = (val) => {
 </script>
 <template>
   <div>
-    系统时区：
+    <span class="dark:text-gray-500">系统时区：</span>
     <a-select
       v-model:value="app.config.timezone"
       style="width: 160px;"

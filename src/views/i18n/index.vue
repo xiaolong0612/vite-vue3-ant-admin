@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-23 20:17:35
- * @LastEditTime: 2023-08-23 22:52:52
+ * @LastEditTime: 2023-08-26 14:04:11
  * @LastEditors: Amber
 -->
 <script setup>
@@ -14,7 +14,7 @@ const getMsg = (type) => {
 </script>
 <template>
   <div class="content-main">
-    <a-typography-paragraph>根据时区语言，自动修改；可在设置中单独配置后台语言</a-typography-paragraph>
+    <a-typography-paragraph class="dark:text-gray-500">根据时区语言，自动修改；可在设置中单独配置后台语言</a-typography-paragraph>
     <div class="flex">
       <a-card title="服务端 response i18n" style="width: 300px" class="mr-5">
         <a-space wrap>

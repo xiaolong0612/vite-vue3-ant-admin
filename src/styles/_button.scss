@@ -134,7 +134,7 @@
 		bottom: 0;
 		right: 0;
 		border-radius: 4px;
-		transition: box-shadow .5s ease, transform .2s ease; 
+		transition: box-shadow .5s ease, transform .2s ease, opacity .3s ease; 
 		will-change: transform;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
 		transform:

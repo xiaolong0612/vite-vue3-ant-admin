@@ -121,7 +121,7 @@ const querySearch = (val) => {
     >
       <a-select-option v-for="item in options" :key="item.item.path" :value="item.item.path">{{ item.item.title.join(' > ') }}</a-select-option>
     </a-select>
-    <search-outlined class="search-icon" @click.stop="click" />
+    <search-outlined class="search-icon dark:text-gray-500" @click.stop="click" />
   </div>
 </template>
 

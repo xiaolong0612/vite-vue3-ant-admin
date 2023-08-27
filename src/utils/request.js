@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Amber
  * @Date: 2023-08-09 19:09:00
- * @LastEditTime: 2023-08-25 18:50:24
+ * @LastEditTime: 2023-08-26 03:36:45
  * @LastEditors: Amber
  */
 import axios from 'axios'
@@ -26,10 +26,10 @@ service.interceptors.request.use(
 			config.loading.value = true
 		}
 		config.headers['Authorization'] = localCache.getCache('Authorization')
-		const lang = localCache.getItemCache('APP', 'config')?.lang
-		if(lang){
-			config.headers['accept-language'] = lang
-		}
+		// const lang = localCache.getItemCache('APP', 'config')?.lang
+		// if(lang){
+		// 	config.headers['accept-language'] = lang
+		// }
 		return config
 	},
 	error => {
